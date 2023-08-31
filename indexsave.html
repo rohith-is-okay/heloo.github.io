@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chatbot Demo</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='realstyle.css') }}">
+<script>
+    $(document).ready(function() {
+        $('form').submit(function(event) {
+            event.preventDefault();
+            var formData = $(this).serialize();
+            $.ajax({
+                type: 'POST',
+                url: '/get_response',
+                data: formData,
+                success: function(data) {
+                    $('#response').text(data.response);
+                }
+            });
+        });
+    });
+</script>
+</head>
+<body>
+    <h1>Chatbot Demo</h1>
+    <form action="/get_response" method="post">
+        <label for="query">Enter your query:</label><br>
+        <textarea id="query" name="query" rows="10" cols="50"></textarea><br>
+        <input type="submit" value="Submit">
+    </form>
+    <h2>Response:</h2>
+    <p id="response"></p>
+</body>
+</html>
